@@ -1,0 +1,37 @@
+pluginManagement {
+    repositories {
+        google()
+        mavenCentral()
+        maven { url '/home/shivansh/Desktop/dummy_flutter/build/host/outputs/repo' }
+        maven { url 'https://oss.sonatype.org/content/repositories/snapshots/' }
+        maven { url 'https://raw.githubusercontent.com/OpenSRP/maven-repo/master/' }
+        maven { url 'https://jitpack.io' }
+        maven { url 'https://plugins.gradle.org/m2/' }
+        maven {
+            url "https://storage.googleapis.com/download.flutter.io"
+        }
+
+    }
+
+}
+
+dependencyResolutionManagement {
+    repositoriesMode.set(RepositoriesMode.PREFER_SETTINGS)
+    repositories {
+        google()
+        mavenCentral()
+        maven { url '/home/shivansh/Desktop/dummy_flutter/build/host/outputs/repo' }
+        maven { url 'https://oss.sonatype.org/content/repositories/snapshots/' }
+        maven { url 'https://raw.githubusercontent.com/OpenSRP/maven-repo/master/' }
+        maven { url 'https://jitpack.io' }
+        maven {
+            url "https://storage.googleapis.com/download.flutter.io"
+        }
+
+    }
+
+}
+
+
+rootProject.name = "dummy_android"
+include ':app'

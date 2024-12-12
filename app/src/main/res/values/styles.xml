@@ -1,0 +1,16 @@
+<resources>
+    <style name="StepView">
+        <item name="stepPadding">8dp</item>
+        <item name="doneCircleColor">#FF0000</item>
+        <item name="selectedCircleColor">#00FF00</item>
+        <item name="doneStepLineColor">#0000FF</item>
+        <item name="stepLineWidth">2dp</item>
+        <item name="selectedCircleRadius">16dp</item>
+        <item name="doneCircleRadius">12dp</item>
+    </style>
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- Customize your theme here -->
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+</resources>

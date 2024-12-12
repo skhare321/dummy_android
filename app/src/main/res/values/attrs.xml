@@ -1,0 +1,68 @@
+<resources>
+    <!-- Global Attributes -->
+    <attr name="backgroundWidth" format="integer" />
+    <attr name="prefix" format="string" />
+    <attr name="roundedCorners" format="boolean" />
+    <attr name="textSize" format="dimension" />
+    <attr name="suffix" format="string" />
+    <attr name="doneCircleColor" format="color" />
+    <attr name="selectedCircleColor" format="color" />
+    <attr name="doneCircleRadius" format="dimension" />
+    <attr name="selectedStepNumberColor" format="color" />
+    <attr name="selectedTextColor" format="color" />
+    <attr name="doneStepMarkColor" format="color" />
+    <attr name="nextTextColor" format="color" />
+    <attr name="stepPadding" format="dimension" />
+    <attr name="doneStepLineColor" format="color" />
+    <attr name="animationType" format="string" />
+    <attr name="stepNumberTextSize" format="dimension" />
+    <attr name="nextStepLineColor" format="color" />
+    <attr name="selectedCircleRadius" format="dimension" />
+    <attr name="stepLineWidth" format="dimension" />
+    <attr name="camera_id" format="string" />
+    <attr name="stepViewStyle" format="reference" />
+    <attr name="show_fps" format="boolean" />
+
+    <!-- StepView Attributes -->
+    <declare-styleable name="StepView">
+        <attr name="suffix" />
+        <attr name="roundedCorners" />
+        <attr name="textSize" />
+        <attr name="backgroundWidth" />
+        <attr name="prefix" />
+        <attr name="stepViewStyle" />
+        <attr name="doneCircleColor" />
+        <attr name="selectedCircleColor" />
+        <attr name="doneCircleRadius" />
+        <attr name="selectedStepNumberColor" />
+        <attr name="selectedTextColor" />
+        <attr name="doneStepMarkColor" />
+        <attr name="nextTextColor" />
+        <attr name="stepPadding" />
+        <attr name="doneStepLineColor" />
+        <attr name="animationType" />
+        <attr name="stepNumberTextSize" />
+        <attr name="nextStepLineColor" />
+        <attr name="selectedCircleRadius" />
+        <attr name="stepLineWidth" />
+        <attr name="camera_id" />
+    </declare-styleable>
+
+    <!-- CountdownTimer Attributes -->
+    <declare-styleable name="CountdownTimer">
+        <attr name="backgroundWidth" />
+        <attr name="prefix" />
+        <attr name="suffix" />
+        <attr name="roundedCorners" />
+        <attr name="textSize" />
+    </declare-styleable>
+
+    <!-- CircleProgressBar Attributes -->
+    <declare-styleable name="CircleProgressBar">
+        <attr name="backgroundWidth" />
+        <attr name="prefix" />
+        <attr name="roundedCorners" />
+        <attr name="suffix" />
+        <attr name="textSize" />
+    </declare-styleable>
+</resources>

@@ -18,4 +18,25 @@
         android:text="Open Flutter Activity"
         android:layout_marginTop="16dp" />
 
+    <Button
+        android:id="@+id/btn_store_data"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Store data in flutter"
+        android:layout_marginTop="16dp"
+        android:layout_gravity="center"/>
+
+    <Button
+        android:id="@+id/btn_get_data"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Get Data"
+        android:layout_marginTop="16dp" />
+    <Button
+        android:id="@+id/send_data_via_api"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Send data via api"
+        android:layout_marginTop="16dp" />
+
 </LinearLayout>

@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">dummy_android</string>
+    <string name="processing_disclaimer">Records will be processed for up to 10 minutes before your records will be updated. Do not edit medical records until the process is complete.</string>
 </resources>

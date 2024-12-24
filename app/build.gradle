@@ -1,5 +1,7 @@
 plugins {
     id 'com.android.application'
+    id 'maven-publish'
+    id 'signing'
 }
 
 android {
@@ -34,46 +36,65 @@ android {
         }
     }
 
-//    splits {
-//        abi {
-//            enable !project.hasProperty('abi')
-//            reset()
-//            include(
-//                    'armeabi-v7a',
-//                    'arm64-v8a',
-//                    'x86_64',  //--> uncomment to be able to deploy the app in
-//                    'x86',     //--> Android virtual devices
-//            )
-//            universalApk false
-//        }
-//    }
+    packagingOptions {
+        exclude 'META-INF/INDEX.LIST'
+        exclude 'META-INF/LICENSE.md'
+        exclude 'META-INF/LICENSE'
+        exclude 'META-INF/LICENSE.txt'
+        exclude 'META-INF/NOTICE'
+        exclude 'META-INF/NOTICE.txt'
+        exclude 'META-INF/DEPENDENCIES'
+        merge 'META-INF/LICENSE.md'
+        merge 'META-INF/NOTICE.md'// Merge duplicate files if needed
+    }
+    buildscript {
+        dependencies {
+//            classpath 'com.android.tools.build:gradle:3.1.2'
+            classpath 'gradle.plugin.org.kt3k.gradle.plugin:coveralls-gradle-plugin:2.10.2'
+            classpath "io.codearte.gradle.nexus:gradle-nexus-staging-plugin:0.11.0"
+
+        }
+    }
 }
 
-
 dependencies {
-    implementation libs.appcompat
-    implementation libs.material
-    implementation libs.activity
-    implementation libs.constraintlayout
-    testImplementation libs.junit
-    androidTestImplementation libs.ext.junit
-    androidTestImplementation libs.espresso.core
+    // Base dependencies
+    implementation 'androidx.appcompat:appcompat:1.6.1'
+    implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
+    implementation 'com.google.android.material:material:1.9.0'
     debugImplementation 'com.example.dummy_flutter:flutter_debug:1.0'
-//    implementation fileTree(dir: 'libs', include: ['*.jar', '*.aar'])
+    implementation 'gradle.plugin.org.kt3k.gradle.plugin:coveralls-gradle-plugin:2.10.2'
+
+
     implementation ('org.smartregister:opensrp-client-native-form:3.1.5-SNAPSHOT') {
         transitive = true
         exclude group: 'io.ona.rdt-capture', module: 'lib'
+        exclude group: 'com.google.guava', module: 'listenablefuture'
         exclude group: 'io.ona.CircleProgressbar', module: 'lib'
+        exclude group: 'com.google.guava', module: 'listenablefuture'
         exclude group: 'com.android.support'
     }
-    implementation 'com.github.raihan-mpower:FancyAlertDialog-Android:0.3'
-    testImplementation 'junit:junit:4.13.2'
-//    implementation 'org.opencv:opencv-android:4.10.0'
-    androidTestImplementation 'androidx.test.ext:junit:1.1.5'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
-    implementation 'androidx.appcompat:appcompat:1.6.1'
-    implementation 'com.google.android.material:material:1.9.0'
-    implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
 
-//    implementation files('libs/flutter_debug.aar')
+    // OpenSRP libraries
+    implementation ('org.smartregister:opensrp-client-core:4.0.0-SNAPSHOT') {
+        exclude group: 'com.google.guava', module: 'listenablefuture'
+    }
+    implementation ('org.smartregister:android-p2p-sync:0.3.7-SNAPSHOT') {
+        exclude group: 'com.google.guava', module: 'listenablefuture'
+    }
+
+    // Other libraries
+    implementation ('com.ibm.fhir:fhir-validation:4.11.1') {
+        exclude group: 'com.google.guava', module: 'listenablefuture'
+    }
+
+    // Guava resolution
+    configurations.all {
+        resolutionStrategy.eachDependency { details ->
+            if (details.requested.group == 'com.google.guava' && details.requested.name == 'listenablefuture') {
+                details.useTarget('com.google.guava:guava:31.0.1-jre')
+            }
+        }
+    }
 }
+

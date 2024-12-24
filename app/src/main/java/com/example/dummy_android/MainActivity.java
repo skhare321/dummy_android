@@ -2,23 +2,30 @@ package com.example.dummy_android;
 
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Button;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.vijay.jsonwizard.activities.JsonFormActivity;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.smartregister.p2p.P2PLibrary;
+import org.smartregister.p2p.activity.P2pModeSelectActivity;
+import org.smartregister.p2p.authorizer.P2PAuthorizationService;
 
 import java.io.InputStream;
+import java.util.HashMap;
+import java.util.Map;
 
 import io.flutter.embedding.engine.FlutterEngine;
 import io.flutter.plugin.common.MethodChannel;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements P2PAuthorizationService {
 
     private static final int REQUEST_CODE_GET_JSON = 1;
     private static final int REQUEST_CODE_FLUTTER_ACTIVITY = 2;
@@ -30,6 +37,21 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+//        P2PLibrary.init(new P2PLibrary.Options(this
+//                , "db_password_here"
+//                , "John Doe"
+//                , new MyP2PAuthorizationService()
+//                , new MyReceiverDao()
+//                , new MySenderDao()));
+        P2PLibrary.Options options = new P2PLibrary.Options(this
+                , "12345678"
+                , "12345678"
+                , this, new MyReceiverDao(), new MySenderDao());
+
+        options.setBatchSize(100);
+        options.setRecalledIdentifier(new FailSafeRecalledID());
+        P2PLibrary.init(options);
 
         flutterEngine = new FlutterEngine(this);
         flutterEngine.getDartExecutor().executeDartEntrypoint(
@@ -44,6 +66,8 @@ public class MainActivity extends AppCompatActivity {
         Button sendDataViaApi = findViewById(R.id.send_data_via_api);
 
         Button btnGetData = findViewById(R.id.btn_get_data);
+
+        Button btnP2PdataTransfer = findViewById(R.id.p2p_data_transfer);
 
         btnOpenOpenSRPForm.setOnClickListener(v -> {
             String formJson = getAutoPopulatedJsonForm();
@@ -81,6 +105,10 @@ public class MainActivity extends AppCompatActivity {
             Log.d("MainActivity", "Send Data via api button clicked");
             sendDataViaApi();
         });
+        btnP2PdataTransfer.setOnClickListener(v -> {
+            Log.d("MainActivity", "p2p data transfer button clicked");
+            startActivity(new Intent(this, P2pModeSelectActivity.class));
+        });
     }
     private void storeDataInFlutter() {
         methodChannel.invokeMethod("storeDataInFlutter", null, new MethodChannel.Result() {
@@ -99,6 +127,28 @@ public class MainActivity extends AppCompatActivity {
                 Log.e("MainActivity", "storeDataInFlutter method not implemented in Flutter");
             }
         });
+    }
+
+    @Override
+    public void authorizeConnection(@NonNull Map<String, Object> authorizationDetails, @NonNull AuthorizationCallback authorizationCallback) {
+        Object appVersion = authorizationDetails.get("app-version");
+        Object appType = authorizationDetails.get("app-type");
+
+        if (appVersion != null && appVersion instanceof Double && ((double) appVersion) >= 9d
+                && appType != null && appType instanceof String && appType.equals("normal-user")) {
+            authorizationCallback.onConnectionAuthorized();
+        } else {
+            authorizationCallback.onConnectionAuthorizationRejected("App version or app type is incorrect");
+        }
+    }
+
+    @Override
+    public void getAuthorizationDetails(@NonNull OnAuthorizationDetailsProvidedCallback onAuthorizationDetailsProvidedCallback) {
+        HashMap<String, Object> authorizationDetails = new HashMap<>();
+        authorizationDetails.put("app-version", 9);
+        authorizationDetails.put("app-type", "normal-user");
+
+        onAuthorizationDetailsProvidedCallback.onAuthorizationDetailsProvided(authorizationDetails);
     }
 
     private void getAllUsersFromFlutter() {

@@ -3,6 +3,21 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.example.dummy_android">
 
+    <!-- Permissions required for P2P sync -->
+    <uses-permission android:name="android.permission.BLUETOOTH" />
+    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
+    <uses-permission android:name="android.permission.BLUETOOTH_SCAN" />
+    <uses-permission android:name="android.permission.BLUETOOTH_ADVERTISE" />
+    <uses-permission android:name="android.permission.BLUETOOTH_CONNECT" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.NEARBY_WIFI_DEVICES"
+        tools:targetApi="31" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -14,11 +29,14 @@
         android:theme="@style/Theme.Dummy_android"
         tools:targetApi="31"
         tools:replace="android:theme">
+
+        <!-- JSON Form Activity -->
         <activity
             android:name="com.vijay.jsonwizard.activities.JsonFormActivity"
             android:label="JSON Form"
             android:theme="@style/AppTheme" />
 
+        <!-- Main Activity -->
         <activity
             android:name=".MainActivity"
             android:exported="true"
@@ -30,6 +48,7 @@
             </intent-filter>
         </activity>
 
+        <!-- Flutter Activity -->
         <activity
             android:name="io.flutter.embedding.android.FlutterActivity"
             android:configChanges="orientation|keyboardHidden|keyboard|screenSize|smallestScreenSize|locale|layoutDirection|fontScale|screenLayout|density|uiMode"
@@ -42,10 +61,24 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".MyFlutterActivity"
+        <!-- Custom Flutter Activity -->
+        <activity
+            android:name=".MyFlutterActivity"
             android:exported="true" />
 
+        <!-- P2P Sync Activity -->
+<!--        <activity-->
+<!--            android:name="org.smartregister.p2p.activity.P2pModeSelectActivity"-->
+<!--            android:exported="true"-->
+<!--            android:label="P2P Sync"-->
+<!--            android:configChanges="orientation|screenSize|keyboardHidden"-->
+<!--            android:theme="@style/Theme.Material3.DynamicColors.Light">-->
+<!--        </activity>-->
 
+        <!-- Service for foreground processes -->
+<!--        <service-->
+<!--            android:name="org.smartregister.p2p.service.P2pService"-->
+<!--            android:exported="false" />-->
 
     </application>
 </manifest>
